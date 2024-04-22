@@ -31,7 +31,7 @@ class KaryawanResource extends Resource
                     ->schema([
                         TextInput::make('nik')->required(),
                         TextInput::make('nama')->required(),
-                        Select::make('jl')
+                        Select::make('jk')
                             ->options([
                                 'laki-laki','perempuan'
                             ]),
