@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('nik')->unique();
             $table->string('nama');
-            $table->enum('jk', ['laki-laki','perempuan']);
+            $table->enum('jk', ['laki-laki', 'perempuan']);
+            $table->bigInteger('job_desks_id')->unsigned()->nullable();
             $table->timestamps();
         });
     }

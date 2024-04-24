@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Builder;
 use App\Filament\Resources\KaryawanResource\Pages;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use App\Filament\Resources\KaryawanResource\RelationManagers;
+use App\Models\job_desk;
 
 class KaryawanResource extends Resource
 {
@@ -25,28 +26,33 @@ class KaryawanResource extends Resource
 
     public static function form(Form $form): Form
     {
+        $jobDesks = job_desk::pluck('jobdesk', 'id');
+
         return $form
             ->schema([
-                Card::make()
-                    ->schema([
-                        TextInput::make('nik')->required(),
-                        TextInput::make('nama')->required(),
-                        Select::make('jk')
-                            ->options([
-                                'laki-laki','perempuan'
-                            ]),
-                    ])
-                    ->columns(2),
+                TextInput::make('nik')->required(),
+                TextInput::make('nama')->required(),
+                Select::make('jk')
+                    ->options([
+                        'laki-laki' => 'laki-laki', 'perempuan' => 'perempuan'
+                    ]),
+                Select::make('job_desks_id')
+                    ->options($jobDesks->toArray())
+                // ->placeholder('Pilih Job Desk')
             ]);
     }
 
     public static function table(Table $table): Table
     {
+        $jobDesks = job_desk::pluck('jobdesk', 'id');
         return $table
             ->columns([
                 TextColumn::make('nik'),
                 TextColumn::make('nama')->sortable()->searchable(),
-                TextColumn::make('jk'),
+                TextColumn::make('jk')
+                ->label('gender'),
+                TextColumn::make('job_desks_id.jobdesk')
+                    ->label('job')
             ])
             ->filters([
                 //
